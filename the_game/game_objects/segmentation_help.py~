@@ -1,0 +1,48 @@
+def line_function( (x1,y1), (x2, y2) ):
+    m = (y2-y1)/(x2-x1)
+    b = y1
+    return lambda x: m*x + b
+
+def close_to( u, v ):
+    EPSILON = 10
+    return v - EPSILON <= u <= v + EPSILON
+
+def find_segment( self, pos ):
+    x, y         = pos
+    segmentation = self.points
+    for i in range( len(segmentation) - 1 ):
+        a, b = segmentation[i], segmentation[i+1]
+
+        # Generate the equation of the line between a and b.
+        F    = line_function( a, b )
+
+        # See if y is close enough to the line to be considered touching that segment.
+        if close_to( y, F(x) ):
+            return a, b
+
+    # If no segment matched, the pos wasn't on the segmentation
+    return AssertionError
+
+def split_segment( seg, pos ):
+    x, y = pos
+    a, b = seg
+    F    = line_function( a, b )
+    return (a, F(x)), (F(x), b)
+
+def segs_before( self, seg ):
+    a, b         = seg
+    segmentation = self.points
+    for i in range( len(segmentation) - 1 ):
+        k, l     = segmentation[i], segmentation[i+1]
+        if (a,b) == (k,l):
+            return segmentation[:i]
+    return []
+
+def segs_after( self, seg ):
+    a, b         = seg
+    segmentation = self.points
+    for i in range( len(segmentation) - 1 ):
+        k, l     = segmentation[i], segmentation[i+1]
+        if (a,b) == (k,l):
+            return segmentation[i+1+1:]
+    return []
