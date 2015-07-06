@@ -129,11 +129,12 @@ class DrawingGame( GameLayout ):
                 # Don't respond to any touches once 'play' has been pressed.
                 pass
             else: #pause
-                # See if the touch is a tap on a user-platform. If so, enter into edit-line mode.
-                self.enter_edit_line_mode( touch )
 
                 # Look to self.switches to set the value of self.active_mode. Then dispatch to the mode's drawing functions.
                 self.search_switches()
+
+                # See if the touch is a tap on a user-platform. If so, enter into edit-line mode.
+                self.enter_edit_line_mode( touch )
 
                 # Initiate mode behavior based on which mode (if any) is active.
                 self.mode_behavior( touch, 'touch_down' )
@@ -164,11 +165,11 @@ class DrawingGame( GameLayout ):
         # Return True if the position occurs not in the drawing panel, else False.
         return not self.drawing_toolkit.collide_point( *pos )
 
-
     def enter_edit_line_mode( self, touch ):
         # A tap on a user-platform enters into edit-line mode.
         self.touching_line = False
 
+        print self.active_mode
         if self.active_mode != 'eraser':# and self.quick_and_short( touch ):
             MAX_DIST = 40
 
