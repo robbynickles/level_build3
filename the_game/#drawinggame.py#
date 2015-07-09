@@ -94,24 +94,16 @@ class DrawingGame( GameLayout ):
                 Line(rectangle=(self.x, self.y, self.width, self.height))
 
     def save_level( self ):
-        # Retrieve the total list of game objects currently populating the physics interface.
         level        = self.physics_interface.get_game_objects()
         
-        # Remove all objects from the physics interface. (Without this step, the objects won't pickle)
-        for obj in level: 
-            obj.remove()
-
-        # Pull the level number from the text input box next to the save button.
+        for obj in level: obj.remove()
+            
         level_number = self.ids.level_number.text
-
-        # Pickle (Serialize) the objects into a file called 'levels/levelX' where X is specified by the user.
         level_name   = "levels/level{}".format( level_number ) 
         with open( level_name, 'w' ) as f:
             pickle.dump( level, f )
 
-        # Load the objects back into the physics interface.
-        for obj in level: 
-            obj.load_into_physics_interface( self.physics_interface )
+        for obj in level: obj.load_into_physics_interface( self.physics_interface )
 
 
     ##### Load the current level
@@ -121,6 +113,11 @@ class DrawingGame( GameLayout ):
 
 
     ##### Touch drawing
+    def do_drawpt( self, pos ):
+        # Boolean used to determine if a point is good to draw.
+        # Return True if the position occurs not in the drawing panel, else False.
+        return not self.drawing_toolkit.collide_point( *pos )
+
     # Subclass the on_touch methods to implement paint-like drawing interaction.
     def on_touch_down(self, touch):
         super(DrawingGame, self).on_touch_down( touch )
@@ -129,7 +126,29 @@ class DrawingGame( GameLayout ):
                 # Don't respond to any touches once 'play' has been pressed.
                 pass
             else: #pause
+                # Look to self.switches to set the value of self.active_mode. Then dispatch to the mode's drawing functions.
+                self.search_switches()
 
+                # See if the touch is a tap on a user-platform. If so, enter into edit-line mode.
+                self.enter_edit_line_mode( touch )
+
+                # Initiate mode behavior based on which mode (if any) is active.
+                self.mode_behavior( touch, 'touch_down' )
+
+    def on_touch_move(self, touch):
+        super(DrawingGame, self).on_touch_move( touch )
+        if self.engine_running: #play
+            # Don't respond to any touches once 'play' has been pressed.
+            pass
+        else: #pause
+    # Subclass the on_touch methods to implement paint-like drawing interaction.
+    def on_touch_down(self, touch):
+        super(DrawingGame, self).on_touch_down( touch )
+        if self.do_drawpt( touch.pos ):
+            if self.engine_running: #play
+                # Don't respond to any touches once 'play' has been pressed.
+                pass
+            else: #pause
                 # Look to self.switches to set the value of self.active_mode. Then dispatch to the mode's drawing functions.
                 self.search_switches()
 
@@ -159,11 +178,40 @@ class DrawingGame( GameLayout ):
         """Dispatch function: call the current mode's drawing function."""
         if self.drawing_enabled:
             dispatcher.dispatch( self, touch, touch_stage )
+            self.mode_behavior( touch, 'touch_move' )
 
-    def do_drawpt( self, pos ):
-        # Boolean used to determine if a point is good to draw.
-        # Return True if the position occurs not in the drawing panel, else False.
-        return not self.drawing_toolkit.collide_point( *pos )
+    def on_touch_up(self, touch):
+        super(DrawingGame, self).on_touch_up( touch )
+        if self.engine_running: #play
+            # Don't respond to any touches once 'play' has been pressed.
+            pass
+        else: #pause
+            self.mode_behavior( touch, 'touch_up' )
+
+    def mode_behavior( self, touch, touch_stage ):
+        """Dispatch function: call the current mode's drawing function."""
+        if self.drawing_enabled:
+            dispatcher.dispatch( self, touch, touch_stage )
+
+
+    def morph_line( self, shape ):
+        "Switch a line to a curve, and a curve to a line."
+
+        # Find the endpoints of the target_line.
+        self.target_line = self.physics_interface.smap[ shape ]
+        start, end = self.target_line.get_start(), self.target_line.get_end()
+
+        # Switch a line to a curve
+        if shape.collision_type == COLLTYPE_USERPLAT:
+            self.physics_interface.add_user_static_curve( start, end )
+        else: # and a curve to a line.
+            self.physics_interface.add_user_static_line( start, end )
+
+        # Remove the target_line completely.
+        self.target_line.remove()
+        
+        # Remove the reference to the dead line, else it'll be brought back to life.
+        self.target_line = None
 
     def enter_edit_line_mode( self, touch ):
         # A tap on a user-platform enters into edit-line mode.
@@ -184,7 +232,7 @@ class DrawingGame( GameLayout ):
                 if touch.is_double_tap:
                     self.morph_line( shape )
 
-                else: # Enter into edit line mode.
+                else:
                     # Exit edit line mode for the currently targeted line, if it exists.
                     self.exit_edit_line_mode()
 
@@ -220,24 +268,7 @@ class DrawingGame( GameLayout ):
                 self.active_mode = mode_name
                 return
 
-    def morph_line( self, shape ):
-        "Switch a line to a curve, and a curve to a line."
 
-        # Find the endpoints of the target_line.
-        self.target_line = self.physics_interface.smap[ shape ]
-        start, end = self.target_line.get_start(), self.target_line.get_end()
-
-        # Switch a line to a curve
-        if shape.collision_type == COLLTYPE_USERPLAT:
-            self.physics_interface.add_user_static_curve( start, end )
-        else: # and a curve to a line.
-            self.physics_interface.add_user_static_line( start, end )
-
-        # Remove the target_line completely.
-        self.target_line.remove()
-        
-        # Remove the reference to the dead line, else it'll be brought back to life.
-        self.target_line = None
 
     ##### Callbacks and helpers for the top-of-the-screen buttons ('menu', 'play', 'pause') (which are defined in gamelayout.kv).
     def reset( self ):

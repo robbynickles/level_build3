@@ -19,8 +19,9 @@ class LevelSelector(GridLayout):
                         col_default_width=96+48+10, 
                         row_default_height=96+48+24+10 )
 
-        for i in range( gamelayout.LEVELS ):
-            G.add_widget( LevelButton( gamelayout, swipe_right, i + 1 ) )
+        #for i in range( gamelayout.LEVELS ):
+        for suffix in gamelayout.LEVELS:
+            G.add_widget( LevelButton( gamelayout, swipe_right, suffix ) )
 
         self.add_widget( G )
 
@@ -34,7 +35,7 @@ class LevelSelector(GridLayout):
         current_state  = self.get_unlocked_levels()
         current_scores = self.get_level_scores()
         for b in self.level_buttons.children:
-            b.unlock( current_state[ b.index - 1 ], current_scores[ b.index - 1 ]  )
+            b.unlock( True, None )#current_state[ b.index - 1 ], current_scores[ b.index - 1 ]  )
 
     def back_callback( self ):
         self.back()

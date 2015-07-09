@@ -8349,3 +8349,219 @@ Traceback (most recent call last):
 AttributeError: 'str' object has no attribute 'write'
 
 ****************************************************************************************************
+
+
+Time 22 : 56
+Date 7 - 7 - 2015
+****************************************************************************************************
+
+Traceback (most recent call last):
+  File "main.py", line 63, in <module>
+    DrawTiltApp().run()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/app.py", line 798, in run
+    root = self.build()
+  File "main.py", line 31, in build
+    game_page      = DrawingGame( swipe_book )
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/the_game/drawinggame.py", line 29, in __init__
+    super( DrawingGame, self ).__init__( swipebook, TiltPhysics, *args, **kwargs )
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/libs/game/gamelayout.py", line 55, in __init__
+    self.levels_unlocked                  = [True] * self.LEVELS #[True] + [False for i in range( self.LEVELS - 1 )]
+TypeError: can't multiply sequence by non-int of type 'list'
+
+****************************************************************************************************
+
+
+Time 22 : 56
+Date 7 - 7 - 2015
+****************************************************************************************************
+
+Traceback (most recent call last):
+  File "main.py", line 63, in <module>
+    DrawTiltApp().run()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/app.py", line 798, in run
+    root = self.build()
+  File "main.py", line 31, in build
+    game_page      = DrawingGame( swipe_book )
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/the_game/drawinggame.py", line 29, in __init__
+    super( DrawingGame, self ).__init__( swipebook, TiltPhysics, *args, **kwargs )
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/libs/game/gamelayout.py", line 56, in __init__
+    self.level_scores                     = [None for i in range( self.LEVELS )]
+TypeError: range() integer end argument expected, got list.
+
+****************************************************************************************************
+
+
+Time 22 : 56
+Date 7 - 7 - 2015
+****************************************************************************************************
+
+Traceback (most recent call last):
+  File "main.py", line 63, in <module>
+    DrawTiltApp().run()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/app.py", line 824, in run
+    runTouchApp()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/base.py", line 487, in runTouchApp
+    EventLoop.window.mainloop()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/core/window/window_sdl2.py", line 525, in mainloop
+    self._mainloop()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/core/window/window_sdl2.py", line 290, in _mainloop
+    EventLoop.idle()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/base.py", line 330, in idle
+    self.dispatch_input()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/base.py", line 315, in dispatch_input
+    post_dispatch_input(*pop(0))
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/base.py", line 221, in post_dispatch_input
+    listener.dispatch('on_motion', etype, me)
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/core/window/__init__.py", line 904, in on_motion
+    self.dispatch('on_touch_down', me)
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/core/window/__init__.py", line 920, in on_touch_down
+    if w.dispatch('on_touch_down', touch):
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/scatter.py", line 507, in on_touch_down
+    if super(Scatter, self).on_touch_down(touch):
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/widget.py", line 382, in on_touch_down
+    if child.dispatch('on_touch_down', touch):
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/widget.py", line 382, in on_touch_down
+    if child.dispatch('on_touch_down', touch):
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/widget.py", line 382, in on_touch_down
+    if child.dispatch('on_touch_down', touch):
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/widget.py", line 382, in on_touch_down
+    if child.dispatch('on_touch_down', touch):
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/behaviors.py", line 135, in on_touch_down
+    self.dispatch('on_press')
+  File "kivy/_event.pyx", line 695, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:6970)
+    if observers.dispatch(self, None, largs, kwargs, 1):
+  File "kivy/_event.pyx", line 1168, in kivy._event.EventObservers.dispatch (kivy/_event.c:12154)
+    result = self._dispatch(
+  File "kivy/_event.pyx", line 1052, in kivy._event.EventObservers._dispatch (kivy/_event.c:11120)
+    return f(*fargs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/lang.py", line 1465, in custom_callback
+    exec(__kvlang__.co_value, idmap)
+  File "libs/menu/menu.kv", line 12, in <module>
+    on_press: root.play_callback()
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/libs/menu/menu.py", line 13, in play_callback
+    self.play_game()
+  File "main.py", line 39, in root_right
+    level_selector.load()
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/libs/level_selector/level_selector.py", line 38, in load
+    b.unlock( current_state[ b.index - 1 ], current_scores[ b.index - 1 ]  )
+TypeError: unsupported operand type(s) for -: 'str' and 'int'
+
+****************************************************************************************************
+
+
+Time 23 : 0
+Date 7 - 7 - 2015
+****************************************************************************************************
+
+Traceback (most recent call last):
+  File "main.py", line 63, in <module>
+    DrawTiltApp().run()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/app.py", line 824, in run
+    runTouchApp()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/base.py", line 487, in runTouchApp
+    EventLoop.window.mainloop()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/core/window/window_sdl2.py", line 525, in mainloop
+    self._mainloop()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/core/window/window_sdl2.py", line 290, in _mainloop
+    EventLoop.idle()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/base.py", line 330, in idle
+    self.dispatch_input()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/base.py", line 315, in dispatch_input
+    post_dispatch_input(*pop(0))
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/base.py", line 221, in post_dispatch_input
+    listener.dispatch('on_motion', etype, me)
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/core/window/__init__.py", line 904, in on_motion
+    self.dispatch('on_touch_down', me)
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/core/window/__init__.py", line 920, in on_touch_down
+    if w.dispatch('on_touch_down', touch):
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/scatter.py", line 507, in on_touch_down
+    if super(Scatter, self).on_touch_down(touch):
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/widget.py", line 382, in on_touch_down
+    if child.dispatch('on_touch_down', touch):
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/widget.py", line 382, in on_touch_down
+    if child.dispatch('on_touch_down', touch):
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/widget.py", line 382, in on_touch_down
+    if child.dispatch('on_touch_down', touch):
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/widget.py", line 382, in on_touch_down
+    if child.dispatch('on_touch_down', touch):
+  File "kivy/_event.pyx", line 699, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:7011)
+    return handler(*largs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/behaviors.py", line 135, in on_touch_down
+    self.dispatch('on_press')
+  File "kivy/_event.pyx", line 695, in kivy._event.EventDispatcher.dispatch (kivy/_event.c:6970)
+    if observers.dispatch(self, None, largs, kwargs, 1):
+  File "kivy/_event.pyx", line 1168, in kivy._event.EventObservers.dispatch (kivy/_event.c:12154)
+    result = self._dispatch(
+  File "kivy/_event.pyx", line 1052, in kivy._event.EventObservers._dispatch (kivy/_event.c:11120)
+    return f(*fargs, **kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/lang.py", line 1465, in custom_callback
+    exec(__kvlang__.co_value, idmap)
+  File "libs/menu/menu.kv", line 12, in <module>
+    on_press: root.play_callback()
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/libs/menu/menu.py", line 13, in play_callback
+    self.play_game()
+  File "main.py", line 39, in root_right
+    level_selector.load()
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/libs/level_selector/level_selector.py", line 38, in load
+    b.unlock( current_state[ b.index - 1 ], current_scores[ b.index - 1 ]  )
+TypeError: unsupported operand type(s) for -: 'str' and 'int'
+
+****************************************************************************************************
+
+
+Time 23 : 1
+Date 7 - 7 - 2015
+****************************************************************************************************
+
+Traceback (most recent call last):
+  File "main.py", line 63, in <module>
+    DrawTiltApp().run()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/app.py", line 798, in run
+    root = self.build()
+  File "main.py", line 31, in build
+    game_page      = DrawingGame( swipe_book )
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/the_game/drawinggame.py", line 29, in __init__
+    super( DrawingGame, self ).__init__( swipebook, TiltPhysics, *args, **kwargs )
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/libs/game/gamelayout.py", line 64, in __init__
+    accelerometer.enable()
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/plyer/facades.py", line 30, in enable
+    self._enable()
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/plyer/platforms/macosx/accelerometer.py", line 24, in _enable
+    self.thread = ServerThread( AccHandler )
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/plyer/platforms/macosx/libs/serverThread.py", line 61, in __init__
+    self.server = SocketServer.UDPServer(('',PORTNO), handler)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/SocketServer.py", line 419, in __init__
+    self.server_bind()
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/SocketServer.py", line 430, in server_bind
+    self.socket.bind(self.server_address)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/socket.py", line 224, in meth
+    return getattr(self._sock,name)(*args)
+error: [Errno 48] Address already in use
+
+****************************************************************************************************

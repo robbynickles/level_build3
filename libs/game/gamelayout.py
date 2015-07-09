@@ -11,6 +11,8 @@ import utils, load_level
 from physics_interface.physics_interface import PhysicsInterface
 from success_screen.success_screen import SuccessScreen
 
+from os import listdir
+
 class GameLayout(GridLayout):
     LEVELS = 5
 
@@ -18,7 +20,12 @@ class GameLayout(GridLayout):
     def __init__(self, swipebook, interface_class, accel=None, gyro=None, compass=None, *args, **kwargs):
         super( GameLayout, self ).__init__( *args, **kwargs )
         
-        ## Set self.LEVELS to the number of files in the directory 'levels'
+        # Create a list of all the filenames in the directory 'levels'.
+        levels = listdir( 'levels' )
+
+        ## Set self.LEVELS to a list of suffixes taken from the files in the directory 'levels'. 
+        # File names in the directory 'levels' are of the form 'levelX', where X, a character, is the suffix.
+        self.LEVELS = [ s[-1] for s in levels ]
 
         # Function called when the player hits the menu button.
         self.go_to_menu = lambda : None
@@ -45,8 +52,8 @@ class GameLayout(GridLayout):
         
         # Keep track of which levels have been unlocked.
         # By default, only the first level is unlocked.
-        self.levels_unlocked                  = [True] + [False for i in range( self.LEVELS - 1 )]
-        self.level_scores                     = [None for i in range( self.LEVELS )]
+        self.levels_unlocked                  = [True] * len(self.LEVELS) #[True] + [False for i in range( self.LEVELS - 1 )]
+        self.level_scores                     = [None for i in self.LEVELS]
 
         # Variable used to store the level_index of the level currently built.
         self.level_loaded                     = 0
