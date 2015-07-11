@@ -8,8 +8,9 @@
         
         TextInput:
             id: level_number
-            input_type: 'number'
-            hint_text: 'Enter level number'
+            hint_text: 'Enter level suffix'
+            multiline: False
+            on_text_validate: root.text_entered()
 
         Button:
             text: 'save'

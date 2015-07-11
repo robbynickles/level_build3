@@ -94,24 +94,39 @@ class DrawingGame( GameLayout ):
                 Line(rectangle=(self.x, self.y, self.width, self.height))
 
     def save_level( self ):
+
+        # Pull the level number from the text input box next to the save button.
+        level_number = self.ids.level_number.text
+        
+        # Save a picture of the level to be used as a level_button thumbnail in the level selector.
+        self.physics_interface.export_to_png( "libs/level_selector/Resources/{}.png".format(level_number) )
+
         # Retrieve the total list of game objects currently populating the physics interface.
         level        = self.physics_interface.get_game_objects()
-        
+
         # Remove all objects from the physics interface. (Without this step, the objects won't pickle)
         for obj in level: 
             obj.remove()
 
-        # Pull the level number from the text input box next to the save button.
-        level_number = self.ids.level_number.text
-
         # Pickle (Serialize) the objects into a file called 'levels/levelX' where X is specified by the user.
         level_name   = "levels/level{}".format( level_number ) 
-        with open( level_name, 'w' ) as f:
-            pickle.dump( level, f )
+        with open(level_name, 'w') as f:
+            pickle.dump(level, f)
 
         # Load the objects back into the physics interface.
         for obj in level: 
             obj.load_into_physics_interface( self.physics_interface )
+
+        # When working on desktop, it's useful to enable scaling and translation.
+        self._keyboard = Window.request_keyboard(self._keyboard_closed, self, 'text')
+        self._keyboard.bind(on_key_down=self._on_keyboard_down)
+
+    def text_entered(self):
+        
+        # When working on desktop, it's useful to enable scaling and translation.
+        self._keyboard = Window.request_keyboard(self._keyboard_closed, self, 'text')
+        self._keyboard.bind(on_key_down=self._on_keyboard_down)
+        
 
 
     ##### Load the current level

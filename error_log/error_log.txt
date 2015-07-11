@@ -8565,3 +8565,85 @@ Traceback (most recent call last):
 error: [Errno 48] Address already in use
 
 ****************************************************************************************************
+
+
+Time 22 : 3
+Date 7 - 10 - 2015
+****************************************************************************************************
+
+Traceback (most recent call last):
+  File "main.py", line 63, in <module>
+    DrawTiltApp().run()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/app.py", line 798, in run
+    root = self.build()
+  File "main.py", line 31, in build
+    game_page      = DrawingGame( swipe_book )
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/the_game/drawinggame.py", line 29, in __init__
+    super( DrawingGame, self ).__init__( swipebook, TiltPhysics, *args, **kwargs )
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/libs/game/gamelayout.py", line 21, in __init__
+    super( GameLayout, self ).__init__( *args, **kwargs )
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/gridlayout.py", line 248, in __init__
+    super(GridLayout, self).__init__(**kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/layout.py", line 66, in __init__
+    super(Layout, self).__init__(**kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/widget.py", line 271, in __init__
+    Builder.apply(self)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/lang.py", line 1872, in apply
+    self._apply_rule(widget, rule, rule)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/lang.py", line 2045, in _apply_rule
+    '{}: {}'.format(e.__class__.__name__, e), cause=tb)
+BuilderException: Parser: File "the_game/drawinggame.kv", line 12:
+...
+     10:            id: level_number
+     11:            hint_text: 'Enter level suffix'
+>>   12:            on_enter: root.text_entered()
+     13:
+     14:        Button:
+...
+AttributeError: enter
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/lang.py", line 2036, in _apply_rule
+    raise AttributeError(key)
+
+
+****************************************************************************************************
+
+
+Time 22 : 4
+Date 7 - 10 - 2015
+****************************************************************************************************
+
+Traceback (most recent call last):
+  File "main.py", line 63, in <module>
+    DrawTiltApp().run()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/app.py", line 798, in run
+    root = self.build()
+  File "main.py", line 31, in build
+    game_page      = DrawingGame( swipe_book )
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/the_game/drawinggame.py", line 29, in __init__
+    super( DrawingGame, self ).__init__( swipebook, TiltPhysics, *args, **kwargs )
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/libs/game/gamelayout.py", line 21, in __init__
+    super( GameLayout, self ).__init__( *args, **kwargs )
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/gridlayout.py", line 248, in __init__
+    super(GridLayout, self).__init__(**kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/layout.py", line 66, in __init__
+    super(Layout, self).__init__(**kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/widget.py", line 271, in __init__
+    Builder.apply(self)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/lang.py", line 1872, in apply
+    self._apply_rule(widget, rule, rule)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/lang.py", line 2045, in _apply_rule
+    '{}: {}'.format(e.__class__.__name__, e), cause=tb)
+BuilderException: Parser: File "the_game/drawinggame.kv", line 12:
+...
+     10:            id: level_number
+     11:            hint_text: 'Enter level suffix'
+>>   12:            on_enter: root.text_entered(self)
+     13:
+     14:        Button:
+...
+AttributeError: enter
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/lang.py", line 2036, in _apply_rule
+    raise AttributeError(key)
+
+
+****************************************************************************************************
