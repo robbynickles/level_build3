@@ -94,7 +94,6 @@ class DrawingGame( GameLayout ):
                 Line(rectangle=(self.x, self.y, self.width, self.height))
 
     def save_level( self ):
-
         # Pull the level number from the text input box next to the save button.
         level_number = self.ids.level_number.text
         
@@ -122,11 +121,9 @@ class DrawingGame( GameLayout ):
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
 
     def text_entered(self):
-        
         # When working on desktop, it's useful to enable scaling and translation.
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self, 'text')
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
-        
 
 
     ##### Load the current level

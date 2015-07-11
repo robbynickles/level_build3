@@ -70,13 +70,14 @@ class SwipeBook( ScatterPlane ):
 
     # Create a new page and place the widget in it.
     # A page is a PAGE_W x PAGE_H box that is used for collision detection.
-    def add_page( self, widget ):
+    def add_page( self, widget, extend=(0,0) ):
+        extend_x, extend_y = extend
         x, y = len(self.pages) * ( self.PAGE_W + self.SPACING ), 0
-        page = Page( (x,y), (self.PAGE_W, self.PAGE_H) )
+        page = Page( (x,y), (self.PAGE_W+extend_x, self.PAGE_H+extend_y) )
         self.pages += [page]
 
         # Wrap widget in a BoxLayout before placing in the swipebook.
-        page_wrapper = BoxLayout( pos=(x,y), size=(self.PAGE_W, self.PAGE_H) )
+        page_wrapper = BoxLayout( pos=(x,y), size=(self.PAGE_W+extend_x, self.PAGE_H+extend_y) )#(self.PAGE_W, self.PAGE_H) )
         page_wrapper.add_widget( widget )
         self.add_widget_to_layer( page_wrapper, 'bottom' )
 

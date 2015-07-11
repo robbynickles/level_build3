@@ -9,8 +9,10 @@
         TextInput:
             id: level_number
             hint_text: 'Enter level suffix'
+            #text: root.level_index
             multiline: False
             on_text_validate: root.text_entered()
+
 
         Button:
             text: 'save'

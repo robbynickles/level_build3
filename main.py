@@ -33,7 +33,9 @@ class DrawTiltApp(App):
 
         swipe_book.add_page( root_menu )
         swipe_book.add_page( level_selector )
-        swipe_book.add_page( game_page )
+
+        # Make the game_page slightly taller to accomodate the text input and save box.
+        swipe_book.add_page( game_page, extend=(0, 96) )
 
         def root_right():
             level_selector.load()

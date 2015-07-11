@@ -8647,3 +8647,61 @@ AttributeError: enter
 
 
 ****************************************************************************************************
+
+
+Time 22 : 19
+Date 7 - 10 - 2015
+****************************************************************************************************
+
+Traceback (most recent call last):
+  File "main.py", line 63, in <module>
+    DrawTiltApp().run()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/app.py", line 798, in run
+    root = self.build()
+  File "main.py", line 31, in build
+    game_page      = DrawingGame( swipe_book )
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/the_game/drawinggame.py", line 29, in __init__
+    super( DrawingGame, self ).__init__( swipebook, TiltPhysics, *args, **kwargs )
+  File "/Users/robby/Desktop/projects/level_tilt/balance_game/level_build3/libs/game/gamelayout.py", line 21, in __init__
+    super( GameLayout, self ).__init__( *args, **kwargs )
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/gridlayout.py", line 248, in __init__
+    super(GridLayout, self).__init__(**kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/layout.py", line 66, in __init__
+    super(Layout, self).__init__(**kwargs)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/uix/widget.py", line 271, in __init__
+    Builder.apply(self)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/lang.py", line 1872, in apply
+    self._apply_rule(widget, rule, rule)
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/lang.py", line 2018, in _apply_rule
+    e), cause=tb)
+BuilderException: Parser: File "the_game/drawinggame.kv", line 12:
+...
+     10:            id: level_number
+     11:            hint_text: 'Enter level suffix'
+>>   12:            text: root.level_index
+     13:            multiline: False
+     14:            on_text_validate: root.text_entered()
+...
+BuilderException: Parser: File "the_game/drawinggame.kv", line 12:
+...
+     10:            id: level_number
+     11:            hint_text: 'Enter level suffix'
+>>   12:            text: root.level_index
+     13:            multiline: False
+     14:            on_text_validate: root.text_entered()
+...
+AttributeError: 'DrawingGame' object has no attribute 'level_index'
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/lang.py", line 1649, in create_handler
+    return eval(value, idmap)
+  File "the_game/drawinggame.kv", line 12, in <module>
+    text: root.level_index
+  File "kivy/weakproxy.pyx", line 19, in kivy.weakproxy.WeakProxy.__getattr__ (kivy/weakproxy.c:1101)
+    return getattr(self.__ref__(), name)
+
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/lang.py", line 2011, in _apply_rule
+    value, rule, rctx['ids'])
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/lang.py", line 1654, in create_handler
+    cause=tb)
+
+
+****************************************************************************************************
