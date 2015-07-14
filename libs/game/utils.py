@@ -5,6 +5,8 @@ from kivy.graphics import Color, Rectangle, Line
 def load_texture( fle ):
     return Image(join(dirname(__file__), fle), mipmap=True).texture
 
+# When using custom textures, a toggle button needs two textures.
+# This function returns a function that alternates between two textures supplied as arguments.
 def texture_toggle( fl1, fl2 ):
     texture1 = load_texture( fl1 )
     texture2 = load_texture( fl2 )

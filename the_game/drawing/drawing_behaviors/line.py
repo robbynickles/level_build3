@@ -18,8 +18,8 @@ def drawline( self, touch, touch_stage, magnetize, curve=False ):
         # Store the initial point of the touch.
         self.line_point1 = Vec2d( *touch.pos )
 
-        # If the touch is close enough to another user_drawn platform's endpoint, connect them.
         if magnetize:
+            # If the touch is close enough to another user_drawn platform's endpoint, connect them.
             self.line_point1 = magnet.connect( self, self.line_point1 )
 
         self.line_progress = None

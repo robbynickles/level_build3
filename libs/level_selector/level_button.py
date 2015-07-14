@@ -36,6 +36,8 @@ class LevelButton( Button ):
         self.canvas.remove( self.lock_screen )
 
         if unlocked:
+
+            # store a reference to the levels current state. This can be checked by outside classes.
             self.unlocked        = unlocked
 
             if score != None:

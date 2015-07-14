@@ -8705,3 +8705,19 @@ AttributeError: 'DrawingGame' object has no attribute 'level_index'
 
 
 ****************************************************************************************************
+
+
+Time 21 : 12
+Date 7 - 13 - 2015
+****************************************************************************************************
+
+Traceback (most recent call last):
+  File "main.py", line 66, in <module>
+    DrawTiltApp().run()
+  File "/Applications/Kivy.app/Contents/Resources/kivy/kivy/app.py", line 798, in run
+    root = self.build()
+  File "main.py", line 31, in build
+    level_selector = LevelSelector( game_page, swipe_book.swipe_right )
+UnboundLocalError: local variable 'game_page' referenced before assignment
+
+****************************************************************************************************

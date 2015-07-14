@@ -5,107 +5,89 @@ from kivy.uix.widget import WidgetException
 from kivy.lang import Builder
 Builder.load_file( 'libs/game/gamelayout.kv' )
 
+from os import listdir
 from plyer import accelerometer, gyroscope
 
 import utils, load_level
-from physics_interface.physics_interface import PhysicsInterface
 from success_screen.success_screen import SuccessScreen
 
-from os import listdir
-
 class GameLayout(GridLayout):
-    LEVELS = 5
+
+    ##### Initialize instance variables
+    # Function called when the player hits the menu button.
+    go_to_menu                       = lambda : None
+
+    # Toggle methods for play and pause that toggle custom textures. 
+    play_toggle                      = utils.texture_toggle( 'Resources/play_normal.png', 'Resources/play_down.png' )
+    pause_toggle                     = utils.texture_toggle( 'Resources/pause_normal.png', 'Resources/pause_down.png' )
+
+    # self.engine_running is True whenever the self.Step is scheduled, and false otherwise.
+    engine_running = False
+
+    # "Post-startup-initialization" is used to refer to the point in time after the widget tree has been
+    # fully constructed, which means that all widget positioning has occurred. Hence it is a safe time to do things
+    # like positioning a widget in the app-wide coordinate system.
+    already_post_startup_initialized = False
+
+    # Variables used for the management of the success screen.
+    need_to_remove_success_screen    = False
+    in_success_screen                = False
+
+    # Levels is a list of suffixes pulled from the files in the directory 'levels'
+    LEVELS                           = [ s[-1] for s in listdir('levels') ]
+
+    # self.build_level() builds the level stored in the file named "levels/level{self.level_index}".
+    level_index                      = 1
+
+    # Variable used to store the level_index of the level currently built.
+    level_loaded                     = 0
+
 
     ##### Initialization
-    def __init__(self, swipebook, interface_class, accel=None, gyro=None, compass=None, *args, **kwargs):
+    def __init__(self, swipebook, interface_class, *args, **kwargs):
         super( GameLayout, self ).__init__( *args, **kwargs )
-        
-        # Create a list of all the filenames in the directory 'levels'.
-        levels = listdir( 'levels' )
-
-        ## Set self.LEVELS to a list of suffixes taken from the files in the directory 'levels'. 
-        # File names in the directory 'levels' are of the form 'levelX', where X, a character, is the suffix.
-        self.LEVELS = [ s[-1] for s in levels ]
-
-        # Function called when the player hits the menu button.
-        self.go_to_menu = lambda : None
-
-        # self.engine_running is True whenever the self.Step is scheduled, and false otherwise.
-        self.engine_running = False
-
-        # Toggle methods for play and pause that toggle custom textures. 
-        # Changing button.background_normal and button.background_down might be easier but didn't seem to work.
-        self.play_toggle  = utils.texture_toggle( 'Resources/play_normal.png', 'Resources/play_down.png' )
-        self.pause_toggle = utils.texture_toggle( 'Resources/pause_normal.png', 'Resources/pause_down.png' )
+        self.swipebook = swipebook
         
         # Create the physics interface.
         self.physics_interface = interface_class( accelerometer, gyroscope )
         self.add_widget( self.physics_interface )
 
-        self.need_to_remove_success_screen    = False
-        self.in_success_screen                = False
-
-        self.swipebook                        = swipebook
-
-        # self.build_level() builds the level stored in the file named "levels/level{self.level_index}".
-        self.level_index                      = 1
-        
         # Keep track of which levels have been unlocked.
         # By default, only the first level is unlocked.
-        self.levels_unlocked                  = [True] * len(self.LEVELS) #[True] + [False for i in range( self.LEVELS - 1 )]
-        self.level_scores                     = [None for i in self.LEVELS]
+        self.levels_unlocked = [True] * len(self.LEVELS) #[True] + [False for i in range( self.LEVELS - 1 )]
+        self.level_scores    = [None for i in self.LEVELS]
 
-        # Variable used to store the level_index of the level currently built.
-        self.level_loaded                     = 0
-
-        self.already_post_startup_initialized = False
-
-        # Enable the device.
+        # Enable the device motion updates.
         accelerometer.enable()
 
 
-    ##### Methods that have to do with levels.
-    def unlock_next_level( self ):
-        self.levels_unlocked[ self.level_index ] = True
+    ##### Callbacks for 'top_of_screen_buttons'
+    def menu_callback(self, button):
+        if self.quick_and_short( button.last_touch ) and not self.in_success_screen:
+            # Disable the devices.
+            accelerometer.disable()
 
-    def get_unlocked_levels( self ):
-        return self.levels_unlocked
+            self.go_to_menu()
+            if self.engine_running:
+                self.reset()
 
-    def set_level_score( self, x ):
-        self.level_scores[ self.level_index - 1 ] = x
+    def pause_callback(self, button):
+        t = button.last_touch
+        if self.quick_and_short( button.last_touch ) and not self.in_success_screen and \
+           self.engine_running:
+            self.reset()
+        else:
+            # Kivy toggles, even though a response is unwanted. Force 'down' state.
+            button.state = 'down'
 
-    def get_level_scores( self ):
-        return self.level_scores
-
-
-    ##### Post-startup initialization:
-    # The widget tree is fully built and now coordinates are known.
-    def post_startup_init( self, leaf=True ):
-        if not self.already_post_startup_initialized:
-            if leaf:
-                self.already_post_startup_initialized = True
-
-            self.success_screen = SuccessScreen( self, pos=self.pos, size=self.size )
-
-
-    ##### Load the current level
-    def build_level( self ):
-        self.post_startup_init()
-
-        # Only load the level when the level_index has changed.
-        if self.level_loaded != self.level_index:
-            load_level.remove_current_load_next( self.level_index, self.physics_interface )
-            self.level_loaded = self.level_index
-
-
-    QUICK = .2
-    SHORT = 10
-    # This method is best used in on_release, that way everything is known about the touch.
-    def quick_and_short( self, touch ):
-        "True if a touch is a quick tap with little movement."
-        #            not self.touching_line and 
-        return \
-            touch.time_end - touch.time_start <= self.QUICK and utils.distance( touch.pos, touch.opos ) <= self.SHORT
+    def play_callback(self, button):
+        t = button.last_touch
+        if self.quick_and_short( button.last_touch ) and not self.in_success_screen and \
+           not self.engine_running:
+            self.start_animation()
+        else:
+            # Kivy toggles, even though a response is unwanted. Force 'down' state.
+            button.state = 'down'
 
 
     ##### Animation Step
@@ -144,7 +126,53 @@ class GameLayout(GridLayout):
         self.physics_interface.clear_notifications()
 
 
-    ##### Callbacks and helpers for the top-of-the-screen buttons ('menu', 'play', 'pause') (which are defined in gamelayout.kv).
+    ##### Load the current level
+    def build_level( self ):
+        # GameLayout needs to build the success screen.
+        self.post_startup_init()
+
+        # Only load the level when the level_index has changed.
+        # This prevents progress from being lost when the user leaves the game screen but doesn't go to a different level.
+        if self.level_loaded != self.level_index:
+            load_level.remove_current_load_next( self.level_index, self.physics_interface )
+            self.level_loaded = self.level_index
+
+
+    ##### Post-startup initialization:
+    # The widget tree is fully built and now coordinates are known.
+    # The function only needs to be called once, hence the boolean instance variable 'already_post_startup_initialized'.
+    def post_startup_init( self, leaf=True ):
+        if not self.already_post_startup_initialized:
+            if leaf:
+                self.already_post_startup_initialized = True
+
+            self.success_screen = SuccessScreen( self, pos=self.pos, size=self.size )
+
+
+    ##### Game-state management methods.
+    def unlock_next_level( self ):
+        self.levels_unlocked[ self.level_index ] = True
+
+    def get_unlocked_levels( self ):
+        return self.levels_unlocked
+
+    def set_level_score( self, x ):
+        self.level_scores[ self.level_index - 1 ] = x
+
+    def get_level_scores( self ):
+        return self.level_scores
+
+
+    ##### Helpers
+    QUICK = .2
+    SHORT = 10
+    # This method is best used in on_release, that way everything is known about the touch.
+    def quick_and_short( self, touch ):
+        "True if a touch is a quick tap with little movement."
+        #            not self.touching_line and 
+        return \
+            touch.time_end - touch.time_start <= self.QUICK and utils.distance( touch.pos, touch.opos ) <= self.SHORT
+
     def reset( self ):
         """Reset the gamelayout to its default state."""
         # Unschedule self.Step().
@@ -158,6 +186,7 @@ class GameLayout(GridLayout):
         # Stop Level
         self.physics_interface.stop_level()
 
+        # When the user retries a level, the success screen will need to be removed.
         if self.need_to_remove_success_screen:
             self.swipebook.remove_widget_from_layer( self.success_screen, 'top' )
             self.need_to_remove_success_screen = False
@@ -186,29 +215,3 @@ class GameLayout(GridLayout):
     def not_in_a_mode(self):
         return not any( [ b.state == 'down' for b in self.switches.values() ] ) 
 
-    def menu_callback(self, button):
-        if self.quick_and_short( button.last_touch ) and not self.in_success_screen:
-            # Disable the devices.
-            accelerometer.disable()
-
-            self.go_to_menu()
-            if self.engine_running:
-                self.reset()
-
-    def pause_callback(self, button):
-        t = button.last_touch
-        if self.quick_and_short( button.last_touch ) and not self.in_success_screen and \
-           self.engine_running:
-            self.reset()
-        else:
-            # Kivy toggles, even though a response is unwanted. Force 'down' state.
-            button.state = 'down'
-
-    def play_callback(self, button):
-        t = button.last_touch
-        if self.quick_and_short( button.last_touch ) and not self.in_success_screen and \
-           not self.engine_running:
-            self.start_animation()
-        else:
-            # Kivy toggles, even though a response is unwanted. Force 'down' state.
-            button.state = 'down'

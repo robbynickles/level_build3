@@ -18,15 +18,16 @@ def load_level( level_name, physics_interface ):
     for obj in game_objects:
         obj.load_into_physics_interface( physics_interface )
 
+    # Why can't the objects to it for themselves as they are loaded?
     # Setup any collision handlers that the gameobjects have submitted.
     setup_collision_handlers( physics_interface.space )
 
-def remove_current_load_next( index, physics_interface ):
+def remove_current_load_next( suffix, physics_interface ):
     remove_current_level( physics_interface )
 
     # Level files are found in the root directory in a directory called levels. 
-    # The naming convention is levelX where X is the level number.
-    level_name = 'levels/level{}'.format( index )
+    # The naming convention is levelX where X is the level suffix.
+    level_name = 'levels/level{}'.format( suffix )
 
     load_level( level_name, physics_interface )
     

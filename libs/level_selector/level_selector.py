@@ -19,17 +19,21 @@ class LevelSelector(GridLayout):
                         col_default_width=96+48+10, 
                         row_default_height=96+48+24+10 )
 
+        # gamelayout.LEVELS is a list of level names.
         for suffix in gamelayout.LEVELS:
             G.add_widget( LevelButton( gamelayout, swipe_right, suffix ) )
 
         self.add_widget( G )
 
+        # Store a reference to the set of level thumbnails.
         self.level_buttons       = G
 
+        # Set references to these items to know what levels have been completed by the user and what are her scores.
         self.get_unlocked_levels = gamelayout.get_unlocked_levels
         self.get_level_scores    = gamelayout.get_level_scores
 
     def load( self ):
+        # 'load' is called when navigating to the level_selection screen. It keeps the level_selection screen updated with the user's progress.
         # Lock or Unlock all buttons so that their state reflects the current game completion state.
         current_state  = self.get_unlocked_levels()
         current_scores = self.get_level_scores()
