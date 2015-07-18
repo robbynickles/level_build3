@@ -25,8 +25,8 @@ class DrawingGame( GameLayout ):
     lens_image = None
 
     ##### Initialization
-    def __init__(self, swipebook, *args, **kwargs):
-        super( DrawingGame, self ).__init__( swipebook, TiltPhysics, *args, **kwargs )
+    def __init__(self, swipebook, go_to_menu, *args, **kwargs):
+        super( DrawingGame, self ).__init__( swipebook, go_to_menu, TiltPhysics, *args, **kwargs )
 
         # self.switches contains entries like ( 'mode_name', mode_button ), 
         # where mode_button is one of DrawingToolkit's toggle buttons, 

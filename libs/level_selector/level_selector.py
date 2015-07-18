@@ -7,11 +7,14 @@ from level_button import LevelButton
 import utils
 
 class LevelSelector(GridLayout):
-    back = lambda : None
-
-    def __init__(self, gamelayout, swipe_right, *args, **kwargs):
+    def __init__(self, forward, back, *args, **kwargs):
         super(LevelSelector, self).__init__( *args, **kwargs )
 
+        # Functions called to navigate from the level_selector screen.
+        self.forward = forward
+        self.back    = back
+
+    def connect_to_game( self, gamelayout ):
         # Populate a Gridlayout G with level-thumbnail buttons.
         G = GridLayout( cols=3, 
                         spacing=20, 
@@ -21,7 +24,7 @@ class LevelSelector(GridLayout):
 
         # gamelayout.LEVELS is a list of level names.
         for suffix in gamelayout.LEVELS:
-            G.add_widget( LevelButton( gamelayout, swipe_right, suffix ) )
+            G.add_widget( LevelButton( gamelayout, self.forward, suffix ) )
 
         self.add_widget( G )
 

@@ -2,10 +2,8 @@ from kivy.app import App
 
 from libs.swipebook import SwipeBook
 from libs.menu.menu import Menu
-
-from the_game.drawinggame import DrawingGame
-
 from libs.level_selector.level_selector import LevelSelector
+from the_game.drawinggame import DrawingGame
 
 from plyer.libs.server_utils import shutdown_server_thread
 
@@ -27,15 +25,7 @@ class DrawTiltApp(App):
 
     def build(self):
         swipe_book     = SwipeBook()
-        root_menu      = Menu()
-        game_page      = DrawingGame( swipe_book ) 
-        level_selector = LevelSelector( game_page, swipe_book.swipe_right )
-
-        swipe_book.add_page( root_menu )
-        swipe_book.add_page( level_selector )
-
-        # Make the game_page slightly taller to accomodate the text input and save box.
-        swipe_book.add_page( game_page, extend=(0, 96) )
+        level_selector = LevelSelector( swipe_book.swipe_right, swipe_book.swipe_left )
 
         def root_right():
             level_selector.load()
@@ -45,11 +35,19 @@ class DrawTiltApp(App):
             level_selector.load()
             swipe_book.swipe_left()
 
-        root_menu.play_game  = root_right
-        level_selector.back  = swipe_book.swipe_left
-        game_page.go_to_menu = game_left
+        root_menu      = Menu( root_right )
+        game_page      = DrawingGame( swipe_book, game_left ) 
+
+        level_selector.connect_to_game( game_page )
+
+        swipe_book.add_page( root_menu )
+        swipe_book.add_page( level_selector )
+
+        # Make the game_page slightly taller to accomodate the text input and save box.
+        swipe_book.add_page( game_page, extend=(0, 96) )
 
         return swipe_book
+
 
 if __name__ == '__main__':
     from kivy.core.window import Window

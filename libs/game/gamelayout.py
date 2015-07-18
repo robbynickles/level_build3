@@ -1,8 +1,9 @@
 from kivy.uix.gridlayout import GridLayout
 from kivy.clock import Clock
 from kivy.uix.widget import WidgetException
-
 from kivy.lang import Builder
+
+# Load GameLayout's design file, called 'libs/game/gamelayout.kv'.
 Builder.load_file( 'libs/game/gamelayout.kv' )
 
 from os import listdir
@@ -14,8 +15,6 @@ from success_screen.success_screen import SuccessScreen
 class GameLayout(GridLayout):
 
     ##### Initialize instance variables
-    # Function called when the player hits the menu button.
-    go_to_menu                       = lambda : None
 
     # Toggle methods for play and pause that toggle custom textures. 
     play_toggle                      = utils.texture_toggle( 'Resources/play_normal.png', 'Resources/play_down.png' )
@@ -44,9 +43,12 @@ class GameLayout(GridLayout):
 
 
     ##### Initialization
-    def __init__(self, swipebook, interface_class, *args, **kwargs):
+    def __init__(self, swipebook, go_to_menu, interface_class, *args, **kwargs):
         super( GameLayout, self ).__init__( *args, **kwargs )
         self.swipebook = swipebook
+
+        # Function called when the player hits the menu button.
+        self.go_to_menu = go_to_menu
         
         # Create the physics interface.
         self.physics_interface = interface_class( accelerometer, gyroscope )
